@@ -3,6 +3,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom'
 
 import './App.css'
 import {Hello} from "./components/Hello";
+import {Form} from "./components/Form";
 
 function App() {
   
@@ -11,7 +12,7 @@ function App() {
     <div>
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Hello/>}></Route>
+        <Route path="/" element={<><Hello/> <Form/></>}></Route>
       </Routes>
 
 
