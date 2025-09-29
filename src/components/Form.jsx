@@ -6,11 +6,11 @@ import React ,{useState} from 'react';
     const[phone,setPhone]=useState("");
     const[password,setPassword]=useState("");
 
-    const[isChecked,setIsChecked]=useState(flase);
+    const[isChecked,setIsChecked]=useState(false);
     const[gender,setGender]=useState("");
     const[city,setCity]=useState("");
 
-     function handleSiubmit(e){
+     function handleSubmit(e){
         e.preventDefault();
         console.log(name,email,phone,password,isChecked,gender)
     }
@@ -19,7 +19,7 @@ import React ,{useState} from 'react';
     return(
         <>
         <h2>Registration form</h2>
-        <form onSubmit={handleSiubmit}>
+        <form onSubmit={handleSubmit}>
             <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name="FullName" placeholder="Name"/><br/>
             <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} name="Email" placeholder="Email"/><br/>
             <input type="tel" value={phone} onChange={(e)=>setPhone(e.target.value)} name="Phone" placeholder="Phone"/><br/>
@@ -49,10 +49,6 @@ import React ,{useState} from 'react';
             </select>
             <br/>
             <button type="submit">submit</button>
-
-
-
-
   </form>  
        </>
     )
