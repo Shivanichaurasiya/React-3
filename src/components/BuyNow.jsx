@@ -16,13 +16,17 @@ const BuyNow = () => {
             </div>
         )
     };
+     const totalAmount = product.price * (product.quantity || 1);
+
+
+
     const upiID = "9452564202@ibl";
     const upiAmount = product.price;
-    const upiPayeeName = 'S M';
-    const upiURL = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(upiPayeeName)}&am=${upiAmount}&cu=INR`;
+    const upiPayeeName = 'Shivani Chaurasiya';
+    const upiURL = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(upiPayeeName)}&am=${totalAmount}&cu=INR`;
 
     const handlePayment = () => {
-    alert(`✅ Payment of ₹${product.price} for "${product.title}" successful via UPI!`);
+    alert(`✅ Payment of ₹${totalAmount.toFixed(2)} for "${product.title}" successful via UPI!`);
     navigate('/'); // Redirect to homepage or orders page after "payment"
   };
 
@@ -38,7 +42,8 @@ const BuyNow = () => {
         backgroundColor: '#f0f0f0',
       }}>
         <h3>{product.title}</h3>
-        <p><strong>Price:</strong> ₹{product.price}</p>
+        <p><strong>Quantity:</strong> {product.quantity || 1}</p>
+        <p><strong>Total Price:</strong> ₹{totalAmount.toFixed(2)}</p>
 
       <div style={{ margin: '1rem 0' }}>
           <QRCodeCanvas value={upiURL} size={200} />

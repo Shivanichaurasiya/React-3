@@ -1,43 +1,74 @@
-import React, { useState, useContext, createContext } from 'react'
+
+
+import React, { useContext, useState, createContext, useEffect } from "react";
+import { jsx } from "react/jsx-runtime";
+
 
 const CartContext = createContext();
-//  2.create a provider component
-export const CartProvider =({children}) =>{
-    const [cartItems,setCartItem] = useState([]);
 
-    const addToCart = (product)=>{
-        setCartItem(prevItems => [...prevItems, product]);
-    };
+export const CartProvider = ({children}) => {
+    const [cartItems, setCartItems] = useState(() => {
 
-    const removeFromCart =(productId) => {
-        setCartItem((prevItems) => prevItems.filter(item => item.id !== productId))
-    };
+        const storedCart = localStorage.getItem('cartItems')
 
-    return(
-        <CartContext.Provider  value={{cartItems, addToCart, removeFromCart}}>
-            {children}
+        return storedCart ? JSON.parse(storedCart) : []
 
-        </CartContext.Provider>
+    }
+        
+        )
+
+        useEffect(() => {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems))
+        }, [cartItems])
+
+    const addToCart = (product) => {
+        const existingItem = cartItems.find(item => item.id === product.id);
+    if (existingItem) {
+      // If item already in cart, increase quantity
+      setCartItems(prevItems =>
+        prevItems.map(item =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        )
+      );
+    }
+      else {
+      // Else add new item
+      setCartItems(prevItems => [...prevItems, { ...product, quantity: 1 }]);
+    }
+    }
+
+
+    const removeFromCart = (productId) => {
+        setCartItems(prevItems => prevItems.filter(item => item.id !== productId))
+    }
+    const updateCartItemQuantity = (id, newQuantity) => {
+  setCartItems((prevItems) =>
+    prevItems.map((item) =>
+      item.id === id ? { ...item, quantity: newQuantity } : item
     )
+  );
 };
 
-//  3.create a custom hook to use the cart context
 
-export const useCart =() => {
+
+
+    return (
+
+        <CartContext.Provider value={{cartItems, addToCart, removeFromCart , updateCartItemQuantity}}>
+            {children}
+        </CartContext.Provider>
+
+    )
+}
+
+export const useCart = () => {
     const context = useContext(CartContext);
-    if(!context){
-        throw new Error('useCart must be used within a CartProvider');
+
+    if(!context) {
+        throw new Error('useCart must be used within a CartProvider')
     }
     return context;
+}
 
-};
 
-// const Cart = () => {
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
 
-// export default Cart;

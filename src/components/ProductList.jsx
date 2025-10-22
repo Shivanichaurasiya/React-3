@@ -117,6 +117,7 @@ const ProductList = () => {
               >
                 💳 Buy Now
               </button>
+              {/* <button onClick={()=>removeFromCart(item.id)}></button> */}
             </div>
           </div>
         ))}
